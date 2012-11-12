@@ -912,6 +912,14 @@ function panels_save_display(&$display) {
       $old_pid = $pane->pid;
       drupal_write_record('panels_pane', $pane, is_numeric($pid) ? array('pid') : array());
 
+      // Allow other modules to take action after a pane is saved.
+      if ($pane->pid == $old_pid) {
+        module_invoke_all('panels_pane_update', $pane);
+      }
+      else {
+        module_invoke_all('panels_pane_insert', $pane);
+      }
+
       if ($pane->pid != $old_pid) {
         // and put it back so our pids and positions can be used
         unset($display->content[$id]);
@@ -945,6 +953,8 @@ function panels_save_display(&$display) {
     $display->panels[$id] = $new_panes;
   }
   if (!empty($pids)) {
+    // Allow other modules to take action before a panes are deleted.
+    module_invoke_all('panels_pane_delete', $pids);
     db_delete('panels_pane')->condition('pid', $pids)->execute();
   }
 
@@ -978,6 +988,7 @@ function panels_delete_display($display) {
   else {
     $did = $display;
   }
+  module_invoke_all('panels_delete_display', $did);
   db_delete('panels_display')->condition('did', $did)->execute();
   db_delete('panels_pane')->condition('did', $did)->execute();
 }
