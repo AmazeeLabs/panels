@@ -10,7 +10,9 @@ Drupal.flexible.splitters = [];
  */
 Drupal.flexible.fixHeight = function() {
   for (i in Drupal.flexible.splitters) {
-    Drupal.flexible.splitters[i].fixHeight();
+    if (typeof Drupal.flexible.splitters[i] !== "undefined") {
+      Drupal.flexible.splitters[i].fixHeight();
+    }
   }
 }
 
