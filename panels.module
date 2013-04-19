@@ -1223,7 +1223,13 @@ function template_preprocess_panels_pane(&$vars) {
   $vars['classes_array'] = array();
   $vars['admin_links'] = '';
 
-  if (module_exists('contextual') && user_access('access contextual links')) {
+  // We have lots of panels, so cache this is a static variable.
+  static $contextual_access;
+  if (!isset($contextual_access)) {
+    $contextual_access = module_exists('contextual') && user_access('access contextual links');
+  }
+
+  if ($contextual_access) {
     $links = array();
     // These are specified by the content.
     if (!empty($content->admin_links)) {
