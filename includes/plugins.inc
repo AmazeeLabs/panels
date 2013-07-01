@@ -175,12 +175,14 @@ class panels_cache_object {
 
     // If there are any differences between the old and the new javascript then
     // store them to be added later.
-    if ($diff = array_diff_assoc($js, $start)) {
+    // Use "@" to avoid warnings. See: https://drupal.org/node/1850798 (from
+    // comment nr. 30)
+    if ($diff = @array_diff_assoc($js, $start)) {
       $this->js = $diff;
     }
 
     // Special case the settings key and get the difference of the data.
-    if ($settings_diff = array_diff_assoc($js['settings']['data'], $start['settings']['data'])) {
+    if ($settings_diff = @array_diff_assoc($js['settings']['data'], $start['settings']['data'])) {
       $this->js['settings'] = $settings_diff;
     }
 
