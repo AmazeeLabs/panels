@@ -431,6 +431,15 @@ function panels_mini_panels_cache_break_lock($key, $cache) {
 }
 
 /**
+ * Implements hook_panels_pre_render().
+ */
+function panels_mini_panels_pre_render($display, $renderer) {
+  if (isset($display->owner->table) && $display->owner->table == 'panels_mini' && $renderer instanceof panels_renderer_standard) {
+    $renderer->show_empty_layout = FALSE;
+  }
+}
+
+/**
  * Implementation of hook_panels_dashboard_blocks().
  *
  * Adds mini panels information to the Panels dashboard.
