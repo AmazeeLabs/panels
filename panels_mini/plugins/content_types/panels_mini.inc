@@ -59,6 +59,7 @@ function _panels_mini_panels_mini_content_type_content_type($mini) {
   $title = filter_xss_admin($mini->admin_title);
   $type = array(
     'title' => $title,
+    'render last' => TRUE,
     // For now mini panels will just use the contrib block icon.
     'icon' => 'icon_mini_panel.png',
     'description' => $title,
