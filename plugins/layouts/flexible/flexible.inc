@@ -383,8 +383,10 @@ function theme_panels_flexible($vars) {
     // head tag. We also do this if we've been told we're in the layout
     // editor so that it always gets fresh CSS.
 
-//  Commented out, see UBX-906.
-//  drupal_add_css($css, array('type' => 'inline', 'preprocess' => FALSE));
+    // Only load inline CSS on admin pages, see UBX-906.
+    if (path_is_admin(current_path())) {
+      drupal_add_css($css, array('type' => 'inline', 'preprocess' => FALSE));
+    }
   }
 
   // Also store the CSS on the display in case the live preview or something
